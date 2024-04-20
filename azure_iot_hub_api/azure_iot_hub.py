@@ -1,5 +1,6 @@
 import json
 import tempfile
+from typing import List
 from azure.cli.core import get_default_cli
 
 from .models import Device, Twin
@@ -90,3 +91,59 @@ class IoTHubRegistryManager:
             f"--login {self.connection_string} --etag {etag}"
         )
         self._invoke(cmd)
+
+
+
+    def get_devices(self, max_number_of_devices:int=-1) -> List[Device]:
+        """Get the identities of multiple devices from the IoTHub identity
+           registry.
+
+        :param int max_number_of_devices: This parameter when specified, defines the maximum number
+           of device identities that are returned. Any value outside the range of
+           1-1000 is considered to be 1000. Default value is -1 which means unlimited.
+
+        :returns: List of device info.
+        """
+        cmd = (
+            f"iot hub device-identity list --top {max_number_of_devices}"
+            f" --login {self.connection_string}"
+        )
+
+        result = self._invoke(cmd)
+        devices = [ Device.from_dictionary(device) for device in result ]
+
+        return devices
+
+
+    def get_twins(self, max_number_of_device_twins:int=-1) -> List[Twin]:
+        """Get the twins of multiple devices from the IoTHub identity
+           registry.
+
+        :param int max_number_of_device_twins: This parameter when specified, defines the maximum number
+           of device twins that are returned. Any value outside the range of
+           1-1000 is considered to be 1000. Default value is -1 which means unlimited.
+
+        :returns: List of device info.
+        """
+        cmd = (
+            f"iot hub device-twin list --top {max_number_of_device_twins}"
+            f" --login {self.connection_string}"
+        )
+
+        result = self._invoke(cmd)
+        twins = [ Twin.from_dictionary(device) for device in result ]
+
+        return twins
+    
+
+
+    def get_device(self, device_id:str) -> Device:
+        """Retrieves a device identity from IoTHub.
+
+        :param str device_id: The name (Id) of the device.
+
+        :returns: The Device object containing the requested device.
+        """
+        cmd = f"iot hub device-identity show --device-id {device_id} --login {self.connection_string}"
+        result = self._invoke(cmd)
+        return Device.from_dictionary(result)

@@ -9,11 +9,17 @@ Currently these very basic functionalities of the **IoTHubRegistryManager** are 
 
 - **create_device_with_sas**
 - **get_twin**
+- **get_twins**
 - **update_twin**
+- **get_device**
+- **get_devices**
 - **delete_device**
 
-The package are designed, so that, if it is used as existing azure-iot-hub alternative in the project, there is no need to make any changes to the codebase.
+The package are designed, so that, if it is used as alternative to existing azure-iot-hub in the project, it need to make only little changes to the codebase.
 
+## Usage
+
+Simply import and create IoTHubRegistryManager using connection string, then you can call api functions.
 
 ## Sample code
 
