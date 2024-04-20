@@ -43,10 +43,14 @@ class Device:
         status = device_dictionary.get("status")
         status_reason = device_dictionary.get("statusReason")
         connection_state_updated_time = datetime.fromisoformat(
-            device_dictionary.get('connectionStateUpdatedTime')
+            device_dictionary.get('connectionStateUpdatedTime') or "0001-01-01T00:00:00.000-00:00"
         )
-        status_updated_time = datetime.fromisoformat(device_dictionary.get("statusUpdatedTime"))
-        last_activity_time = datetime.fromisoformat(device_dictionary.get('lastActivityTime'))
+        status_updated_time = datetime.fromisoformat(
+            device_dictionary.get("statusUpdatedTime") or "0001-01-01T00:00:00.000-00:00"
+            )
+        last_activity_time = datetime.fromisoformat(
+            device_dictionary.get('lastActivityTime') or "0001-01-01T00:00:00.000-00:00"
+            )
         cloud_to_device_message_count = device_dictionary.get("cloudToDeviceMessageCount")
         authentication = device_dictionary.get('authentication')
         capabilities = device_dictionary.get('capabilities')
