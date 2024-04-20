@@ -3,6 +3,7 @@ import tempfile
 from azure.cli.core import get_default_cli
 
 from .models import Device, Twin
+from .utilities import _ensure_quoted
 
 
 class IoTHubRegistryManager:
@@ -42,3 +43,15 @@ class IoTHubRegistryManager:
             f"--secondary-key {secondary_key} --status {status} --login {self.connection_string}"
         )
         return Device.from_dictionary(self._invoke(cmd))
+
+
+    def delete_device(self, device_id: str, etag=None) -> None:
+        if etag is None:
+            etag = "*"
+
+        etag = _ensure_quoted(etag)
+        cmd = (
+            f"iot hub device-identity delete --device-id {device_id} "
+            f"--login {self.connection_string} --etag {etag}"
+        )
+        self._invoke(cmd)
