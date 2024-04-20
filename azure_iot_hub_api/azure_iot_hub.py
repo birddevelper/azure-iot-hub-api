@@ -1,5 +1,5 @@
 import json
-
+import tempfile
 from azure.cli.core import get_default_cli
 
 from .models import Device, Twin
@@ -11,13 +11,14 @@ class IoTHubRegistryManager:
         self.connection_string = connection_string
 
     def _invoke(self, command: str) -> dict:
-        azure_cli_args = command.split()
-        self.cli.invoke(azure_cli_args)
+        with tempfile.TemporaryFile(mode = "w") as temp:
+            azure_cli_args = command.split()
+            self.cli.invoke(azure_cli_args, out_file=temp)
+        
+            if self.cli.result.error:
+                raise self.cli.result.error
 
-        if self.cli.result.error:
-            raise self.cli.result.error
-
-        return self.cli.result.result
+            return self.cli.result.result
 
     def get_twin(self, device_id: str) -> Twin:
         cmd = f"iot hub device-twin show --device-id {device_id} --login {self.connection_string}"
