@@ -5,7 +5,7 @@ with open('README.md') as readme_file:
 
 
 setup_args = dict(
-    name='azure-iothub',
+    name='azure-iot-hub-api',
     version='0.1.0',
     description='Azure iot hub api with azure cli backend',
     long_description_content_type="text/markdown",
