@@ -1,15 +1,16 @@
 # azure-iot-hub-api
 Azure IoT hub api interface using azure cli
 
-This package is alternative to azure-iot-hub which hasn't had any updates in several years and relays on the deprecated [azure-uamqp-python](https://github.com/Azure/azure-uamqp-python).
+This package is alternative to [azure-iot-hub](https://pypi.org/project/azure-iot-hub/) which hasn't had any updates in several years and relays on the deprecated [azure-uamqp-python](https://github.com/Azure/azure-uamqp-python).
 
-This package can be used as a stopgap until the azure-iot-hub been updated to no longer depend on deprecated packages.
+This package can be used as a stopgap until the [azure-iot-hub](https://pypi.org/project/azure-iot-hub/) been updated to no longer depend on deprecated packages.
 
-Currently these very basic functionalities of the **IoTHubRegistryManager** are covered:
+Currently these very basic functionalities of the **IoTHubRegistryManager** are supported:
 
 - **create_device_with_sas**
 - **get_twin**
 - **update_twin**
+- **delete_device**
 
 The package are designed, so that, if it is used as existing azure-iot-hub alternative in the project, there is no need to make any changes to the codebase.
 
