@@ -3,6 +3,7 @@ import tempfile
 from azure.cli.core import get_default_cli
 
 from .models import Device, Twin
+from .utilities import _ensure_quoted
 
 
 class IoTHubRegistryManager:
@@ -21,15 +22,33 @@ class IoTHubRegistryManager:
             return self.cli.result.result
 
     def get_twin(self, device_id: str) -> Twin:
+        """Gets a device twin.
+
+        :param str device_id: The name (Id) of the device.
+
+        :returns: The Twin object.
+        """
         cmd = f"iot hub device-twin show --device-id {device_id} --login {self.connection_string}"
         result = self._invoke(cmd)
         return Twin.from_dictionary(result)
 
-    def update_twin(self, device_id: str, twin: Twin) -> Twin:
+    def update_twin(self, device_id: str, twin: Twin, etag=None) -> Twin:
+
+        """Updates tags and desired properties of a device twin.
+
+        :param str device_id: The name (Id) of the device.
+        :param Twin device_twin: The twin info of the device.
+        :param str etag: The etag (if_match) value to use for the update operation.
+
+        :returns: The Twin object.
+        """
+        if etag is None:
+            etag = "*"
+        etag = _ensure_quoted(etag)
         twin_properties_desired = "".join(json.dumps(twin.properties.desired).split())
         cmd = (
             f"iot hub device-twin update --device-id {device_id} "
-            f"--login {self.connection_string} --desired {twin_properties_desired}"
+            f"--login {self.connection_string} --desired {twin_properties_desired} --etag {etag}"
         )
         result = self._invoke(cmd)
         return Twin.from_dictionary(result)
@@ -37,8 +56,37 @@ class IoTHubRegistryManager:
     def create_device_with_sas(
         self, device_id: str, primary_key: str, secondary_key: str, status: str
     ) -> Device:
+        """Creates a device identity on IoTHub that will use SAS as authentication method.
+
+        :param str device_id: The name (Id) of the device.
+        :param str primary_key: Primary authentication key.
+        :param str secondary_key: Secondary authentication key.
+        :param str status: Initial state of the created device.
+            (Possible values: "enabled" or "disabled").
+
+        :returns: Device object containing the created device.
+        """
         cmd = (
             f"iot hub device-identity create --device-id {device_id} --primary-key {primary_key} "
             f"--secondary-key {secondary_key} --status {status} --login {self.connection_string}"
         )
         return Device.from_dictionary(self._invoke(cmd))
+
+
+    def delete_device(self, device_id: str, etag=None) -> None:
+        """Deletes a device identity from IoTHub.
+
+        :param str device_id: The name (Id) of the device.
+        :param str etag: The etag (if_match) value to use for the delete operation.
+
+        :returns: None.
+        """
+        if etag is None:
+            etag = "*"
+
+        etag = _ensure_quoted(etag)
+        cmd = (
+            f"iot hub device-identity delete --device-id {device_id} "
+            f"--login {self.connection_string} --etag {etag}"
+        )
+        self._invoke(cmd)
