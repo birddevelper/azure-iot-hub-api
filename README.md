@@ -22,7 +22,7 @@ The package are designed, so that, if it is used as alternative to existing azur
 Install package :
 
 ```bash
-pip install azure-iot-hub
+pip install azure-iot-hub-api
 ```
 
 Simply import and create ``IoTHubRegistryManager`` using connection string, then you can call api functions.
