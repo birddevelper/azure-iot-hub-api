@@ -20,7 +20,8 @@ setup_args = dict(
 )
 
 install_requires = [
-    'azure-cli'
+    'azure-cli',
+    'python-dateutil'
 ]
 
 if __name__ == '__main__':

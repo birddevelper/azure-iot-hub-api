@@ -1,4 +1,5 @@
 from datetime import datetime
+from dateutil import parser as datetime_parser
 
 
 class Device:
@@ -42,13 +43,13 @@ class Device:
         connection_state = device_dictionary.get("connectionState")
         status = device_dictionary.get("status")
         status_reason = device_dictionary.get("statusReason")
-        connection_state_updated_time = datetime.fromisoformat(
+        connection_state_updated_time = datetime_parser.parse(
             device_dictionary.get('connectionStateUpdatedTime') or "0001-01-01T00:00:00.000-00:00"
         )
-        status_updated_time = datetime.fromisoformat(
+        status_updated_time = datetime_parser.parse(
             device_dictionary.get("statusUpdatedTime") or "0001-01-01T00:00:00.000-00:00"
             )
-        last_activity_time = datetime.fromisoformat(
+        last_activity_time = datetime_parser.parse(
             device_dictionary.get('lastActivityTime') or "0001-01-01T00:00:00.000-00:00"
             )
         cloud_to_device_message_count = device_dictionary.get("cloudToDeviceMessageCount")
@@ -164,9 +165,9 @@ class Twin:
         device_etag = twin_dictionary.get("deviceEtag")
         status = twin_dictionary.get("status")
         status_reason = twin_dictionary.get("statusReason")
-        status_update_time = datetime.fromisoformat(twin_dictionary.get("statusUpdateTime"))
+        status_update_time = datetime_parser.parse(twin_dictionary.get("statusUpdateTime"))
         connection_state = twin_dictionary.get("connectionState")
-        last_activity_time = datetime.fromisoformat(twin_dictionary.get("lastActivityTime"))
+        last_activity_time = datetime_parser.parse(twin_dictionary.get("lastActivityTime"))
         cloud_to_device_message_count = twin_dictionary.get("cloudToDeviceMessageCount")
         authentication_type = twin_dictionary.get("authenticationType")
         x509_thumbprint = twin_dictionary.get("x509Thumbprint")
