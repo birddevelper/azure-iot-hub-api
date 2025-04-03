@@ -20,8 +20,8 @@ setup_args = dict(
 )
 
 install_requires = [
-    'azure-cli[azure-iot]'
+    'azure-cli'
 ]
 
 if __name__ == '__main__':
-	setup(**setup_args, install_requires=install_requires)
+    setup(**setup_args, install_requires=install_requires)
