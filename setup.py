@@ -6,7 +6,7 @@ with open('README.md') as readme_file:
 
 setup_args = dict(
     name='azure-iot-hub-api',
-    version='0.2.1',
+    version='0.2.0',
     description='Azure iot hub api with azure cli backend',
     long_description_content_type="text/markdown",
     long_description=README,
@@ -20,9 +20,8 @@ setup_args = dict(
 )
 
 install_requires = [
-    'azure-cli==2.71.0',
-    'python-dateutil~=2.9'
+    'azure-cli[azure-iot]'
 ]
 
 if __name__ == '__main__':
-    setup(**setup_args, install_requires=install_requires)
+	setup(**setup_args, install_requires=install_requires)
