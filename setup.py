@@ -20,7 +20,7 @@ setup_args = dict(
 )
 
 install_requires = [
-    'azure-cli==2.71.0',
+    'azure-cli==2.72.0',
     'python-dateutil~=2.9'
 ]
 
