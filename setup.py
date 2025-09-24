@@ -6,13 +6,13 @@ with open('README.md') as readme_file:
 
 setup_args = dict(
     name='azure-iot-hub-api',
-    version='0.2.1',
+    version='0.2.2',
     description='Azure iot hub api with azure cli backend',
     long_description_content_type="text/markdown",
     long_description=README,
     license='GNU',
     packages=find_packages(),
-    author='M.Shaeri',
+    author='R.E',
     
     keywords=['Azure', 'IoT', 'Azure IoT hub', 'azure cli'],
     url='https://github.com/birddevelper/azure-iot-hub-api',
