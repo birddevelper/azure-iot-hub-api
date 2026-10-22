@@ -21,7 +21,7 @@ setup_args = dict(
 
 install_requires = [
     'azure-cli==2.86.0',
-    'python-dateutil~=2.9'
+    'python-dateutil~=3.0'
 ]
 
 if __name__ == '__main__':
